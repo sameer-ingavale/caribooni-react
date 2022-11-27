@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import {
 	Grid,
@@ -10,72 +9,66 @@ import {
 	Header,
 	Divider,
 } from 'semantic-ui-react';
+import { useQuery, gql } from '@apollo/client';
+import { enumToWord } from './helpers/enumToWord';
+import Products from './pages/Products';
+import logo from './assets/logo.png';
 
 function App() {
-	const Categories = [
-		'Seat Covers',
-		'Steering Covers',
-		'Floor Mats',
-		'Wiper Blades',
-		'Air Freshners',
-		'Air Compressors',
-	];
-
 	return (
 		<div>
 			<Card
 				fluid
-				style={{ backgroundColor: '#C0C2E6', padding: 15 }}
+				style={{ backgroundColor: '#C0C2E6', padding: 12 }}
 				rasied="false"
 			>
-				<Header>Caribooni</Header>
+				<div
+					style={{
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'space-between',
+					}}
+				>
+					<div
+						style={{
+							display: 'flex',
+							justifyContent: 'flex-start',
+							alignItems: 'center',
+						}}
+					>
+						<Image src={logo} size="mini" />
+						<Header style={{ marginLeft: 6, marginBottom: 4 }}>
+							Caribooni
+						</Header>
+					</div>
+					{/* <div>
+						<a href="tel:$+255759750788">
+							<Icon name="phone square" size="large" />
+						</a>
+						<a href="whatsapp://send?text=Hi&phone=918657276904">
+							<Icon name="whatsapp square" size="large" />
+						</a>
+					</div> */}
+				</div>
+				{/* {data && <pre>{JSON.stringify(data, null, 5)}</pre>}
+				{error && <pre>{JSON.stringify(error, null, 5)}</pre>} */}
 			</Card>
 			<div style={{ padding: 20 }}>
-				<Grid centered columns={2} style={{ height: '65vh' }}>
-					<Grid.Row style={{ height: '85%' }}>
-						<Grid.Column width={12}>
-							<Card raised fluid>
-								<Card.Content>
-									<Image
-										style={{ marginBottom: 0 }}
-										src="https://cdn.thewirecutter.com/wp-content/media/2022/06/convertiblecarseats-2048px-8569.jpg"
-										floated="left"
-										size="small"
-										rounded
-									/>
-									<Card.Header>Seat Cover</Card.Header>
-									<Card.Meta style={{ paddingTop: 2 }}>
-										<span className="date">6 pieces/set</span>
-									</Card.Meta>
-									<div style={{ paddingTop: 3 }}>
-										<span style={{ textDecoration: 'underline' }}>Price:</span>{' '}
-										180,000 TZS/set
-									</div>
-								</Card.Content>
-								<Card.Content extra>Category: Seat Covers</Card.Content>
-							</Card>
-						</Grid.Column>
-						<Grid.Column width={4}>
-							<Card raised fluid style={{ padding: 15, paddingTop: 15 }}>
-								<List>
-									<Header>Categories</Header>
-									<Divider />
-									{Categories.map((category) => (
-										<List.Item style={{ marginTop: 3 }}>
-											<List.Content>
-												<List.Header as="a">{category}</List.Header>
-												{/* <List.Description as="a">10 items</List.Description> */}
-											</List.Content>
-										</List.Item>
-									))}
-								</List>
-							</Card>
-						</Grid.Column>
-					</Grid.Row>
-				</Grid>
+				<Products />
 			</div>
 		</div>
 	);
 }
+
+const GET_PRODUCTS = gql`
+	{
+		getProducts {
+			_id
+			name
+			product_type
+			price
+		}
+	}
+`;
 
 export default App;
